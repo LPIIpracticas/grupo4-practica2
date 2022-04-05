@@ -7,6 +7,15 @@ using namespace std;
 
 #include "producto.h"
 #include "producto.cpp"
+
+void ingresarProducto(Producto *ptrProducto)
+{
+    ptrProducto->ingresar();
+}
+void imprimirProducto(Producto *ptrProducto)
+{
+    ptrProducto->imprimir();
+}
 void sacarDescuento(Producto *ptrProducto)
 {
     float descuento;
@@ -15,12 +24,13 @@ void sacarDescuento(Producto *ptrProducto)
     cin >> descuento;
     descuento=ptrProducto->aplicarDescuento(descuento);
     cout << "El descuento es de: " << descuento<< endl;
+    system("pause");
 }
 void calcularValorProducto(Producto *ptrProducto)
 {
     system("clear");
-    cout << "Precio total del producto " << ptrProducto->getNombre() << ": ";
-    ptrProducto->valorProducto();
+    cout << "Precio total del producto " << ptrProducto->getNombre() << ": "<<
+    ptrProducto->valorProducto()<< endl;
     system("pause");
 }
 void funcionCambiarPrecioProducto(Producto *ptrProducto)
@@ -65,7 +75,6 @@ int menu()
     int opc = 0;
     do
     {
-
         system("clear");
         cout << "\t\t\tMENU\n";
         cout << "\t\t\t====\n";
@@ -92,30 +101,14 @@ int menu()
 void ejecutaMetodos(int opc, Producto *ptrProducto)
 {
     int n = 0;
-
-    switch (opc)
-    {
-    case 1:
-        ptrProducto->ingresar();
-        break;
-    case 2:
-        funcionAumentar(ptrProducto);
-        break;
-    case 3:
-        funcionDisminuir(ptrProducto);
-        break;
-    case 4:
-        funcionCalcularIGV(ptrProducto);
-        break;
-    case 5:
-        funcionCambiarPrecioProducto(ptrProducto);
-        break;
-    case 6:
-        ptrProducto->imprimir();
-        break;
-    case 7:
-        calcularValorProducto(ptrProducto);
-    case 8:
-        sacarDescuento(ptrProducto);
-    }
+    void (*punteroFuncion[8])(Producto *ptrProducto)={ingresarProducto,
+                                                        funcionAumentar,
+                                                        funcionDisminuir,
+                                                        funcionCalcularIGV,
+                                                        funcionCambiarPrecioProducto,
+                                                        imprimirProducto,
+                                                        calcularValorProducto,
+                                                        sacarDescuento
+                                                    };
+    punteroFuncion[opc-1](ptrProducto);    
 }
